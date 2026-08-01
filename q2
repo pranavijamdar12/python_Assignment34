@@ -1,0 +1,48 @@
+# Design Automation Script Which Display Information that process if its running
+import psutil
+import sys
+def DisplayProcess(ProcessName):
+    Border = "-"*50
+    Flag = False
+    print(Border)
+    print("Information of Running Process")
+    print(Border)
+
+    for process in psutil.process_iter():
+        try:
+            ProcessInfo = process.as_dict(attrs=['pid','name','username'])
+            if(ProcessInfo['name'].lower()==ProcessName.lower()):
+                Flag = True
+                print("Process Name:",ProcessInfo['name'])
+                print("PID:",ProcessInfo['pid'])
+                print("UserName:",ProcessInfo['username'])
+                print(Border)
+        except(psutil.NoSuchProcess,psutil.AccessDenied,psutil.ZombieProcess):
+            pass
+    if(Flag == False):
+        print("No Such Process is running.")
+def main():
+    Border = "-"*50
+    print(Border)
+    print("...........Marvellous Process Automation..............")
+    print(Border)
+    if(len(sys.argv)==2):
+        if(sys.argv[1]=="--h" or sys.argv[1]=="--H"):
+            print("This Automation Script Display")
+            print("Information of a running process.")
+            print("Usage:python ProcInfo.py ProcessName")
+        elif(sys.argv[1]=="u" or sys.argv[1]=="--U"):
+            print("Usage")
+            print("python",sys.argv[0],"ProcessName")
+        else:
+            DisplayProcess(sys.argv[1])
+    else:
+        print("Invalid Number of Arguments.")
+        print("use --h or --u for help.")
+
+    print(Border)
+    print("Thank you for using marvellous automation")
+    print(Border)
+
+if __name__ == "__main__":
+    main()
